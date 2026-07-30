@@ -14,13 +14,13 @@ import { signupFormSchema, SignupFormSchema } from "./singup-form.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 export function SignupForm({
     className,
     ...props
 }: React.ComponentProps<"form">) {
-
-
+    const router = useRouter();
 
     const {
         register,
@@ -36,8 +36,37 @@ export function SignupForm({
         },
     })
 
-    const onSubmit = (data: SignupFormSchema) => {
-        console.log(data)
+    const onSubmit = async (data: SignupFormSchema) => {
+        try {
+            const response = await fetch("/api/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+
+            const user = await response.json();
+
+            if (!response.ok) {
+                throw new Error(user.error || "Failed to create user");
+            }
+
+            const result = await signIn("credentials", {
+                email: data.email,
+                password: data.password,
+                redirect: false,
+            });
+
+            if (result?.error) {
+                throw new Error(result.error);
+            }
+
+            router.push("/");
+            router.refresh();
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
