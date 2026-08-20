@@ -1,6 +1,7 @@
 import { prisma } from "@/prisma/prisma-client";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@/lib/generated/prisma/client";
 
 export async function GET(){
     try {
@@ -28,10 +29,14 @@ export async function POST(request: NextRequest){
             },
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password: _, ...safeUser } = user;
         return NextResponse.json(safeUser, { status: 201 });
         
     } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+            return NextResponse.json({ error: "Email already in use" }, { status: 409 });
+        }
         console.error(error);
         return NextResponse.json({ error: "Cannot create user" }, { status: 500 });
     }

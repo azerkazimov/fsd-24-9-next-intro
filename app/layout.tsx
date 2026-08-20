@@ -31,7 +31,7 @@ export default async function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full font-sans antialiased">
+      <body className="min-h-full bg-[radial-gradient(ellipse_at_center,#EBF3F5_19%,#98CBD7_100%)] font-sans antialiased">
         <AuthProvider session={session}>{children}</AuthProvider>
       </body>
     </html>
