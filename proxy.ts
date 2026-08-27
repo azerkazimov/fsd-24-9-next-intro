@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
+import createIntlMiddleware from "next-intl/middleware"
+import { routing } from "./i18n/routing";
+
+const intlMiddleware = createIntlMiddleware(routing)
 
 
 export default async function middleware(request: NextRequest) {
@@ -14,10 +18,13 @@ export default async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/", request.url));
     }
 
+    // next-intl middleware 
+    return intlMiddleware(request)
+
 }
 
 export const config = {
     matcher: [
-        "/((?!api|_next/static|_next/image|favicon.ico).*)",
+      "/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)",
     ],
-}
+  };

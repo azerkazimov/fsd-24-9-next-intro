@@ -4,8 +4,10 @@ import Scooter from "@/components/models/e-scooter";
 import Sphere from "@/components/models/sphere";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 export default function Hero() {
+    const t = useTranslations("hero") 
     return (
         <section className="relative min-h-screen overflow-hidden">
             <motion.div
@@ -24,7 +26,9 @@ export default function Hero() {
                     </p>
                     <h1 className="text-7xl leading-none font-bold tracking-tight text-black lg:text-8xl xl:text-9xl">
                         FUTURE
+                        
                     </h1>
+                    <h2>{t("title")}</h2>
                     <p className="mt-4 max-w-xs text-neutral-600">
                         Simple and sleek design with users in mind.
                     </p>

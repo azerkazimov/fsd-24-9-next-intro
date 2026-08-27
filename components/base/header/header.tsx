@@ -7,6 +7,7 @@ import Link from "next/link";
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import LocaleSwitcher from "@/components/shared/locale-switcher/locale-switcher";
 
 export default function Header() {
     const router = useRouter();
@@ -43,6 +44,8 @@ export default function Header() {
                             </li>
                         </ul>
                     </div>
+
+                    <LocaleSwitcher />
 
                     {isAuthenticated ? (
 
