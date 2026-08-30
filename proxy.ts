@@ -18,9 +18,17 @@ export default async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/", request.url));
     }
 
-    // next-intl middleware 
-    return intlMiddleware(request)
+    // admin protected routes
+    if (pathname.startsWith("/admin") && !isAuthenticated) {
+        return NextResponse.redirect(new URL("/auth/login", request.url));
+    }
 
+    // admin without localization (uses root layout, not [locale]/layout)
+    if (pathname.startsWith("/admin")) {
+        return NextResponse.next();
+    }
+
+    return intlMiddleware(request);
 }
 
 export const config = {
