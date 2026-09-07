@@ -27,7 +27,7 @@ export default function OrbitModel() {
 
         // Səhnə
         const scene = new THREE.Scene()
-        scene.background = new THREE.Color(0x000000);
+        scene.background = null;
         sceneRef.current = scene
 
 
@@ -37,9 +37,10 @@ export default function OrbitModel() {
         scene.add(camera);
 
         // Renderer
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(width, height);
         renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setClearColor(0x000000, 0);
         containerRef.current.appendChild(renderer.domElement);
 
         // Orbit Controls
