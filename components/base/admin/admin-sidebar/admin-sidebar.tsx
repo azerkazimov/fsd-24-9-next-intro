@@ -16,7 +16,7 @@ const navItems = [
     },
     {
         label: "Products",
-        href: "/admin/product",
+        href: "/admin/products",
         icon: Package,
     },
     {
